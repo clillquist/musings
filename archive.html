@@ -1,0 +1,33 @@
+---
+layout: page
+title: Archive
+permalink: /archive/
+description: Everything, newest first.
+---
+{% assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+{% for year in years %}
+<h2 id="y{{ year.name }}">{{ year.name }}</h2>
+<ul class="post-list">
+  {% for post in year.items %}
+  <li>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d' }}</time>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">Nothing here yet.</p>
+{% endfor %}
+
+{% if site.categories.size > 0 %}
+<h2 id="topics">By topic</h2>
+{% assign cats = site.categories | sort %}
+{% for cat in cats %}
+<h3 id="{{ cat[0] | slugify }}">{{ cat[0] }}</h3>
+<ul class="post-list">
+  {% for post in cat[1] %}
+  <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endfor %}
+{% endif %}

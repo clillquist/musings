@@ -1,0 +1,35 @@
+---
+layout: default
+---
+<header class="sheet-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><span aria-current="page">Home</span></nav>
+  <h1 class="title">{{ site.title }}</h1>
+  <p class="dek">{{ site.description }}</p>
+</header>
+
+<div class="sheet-body">
+  {% if site.posts.size == 0 %}
+  <p class="empty">No posts yet. Add a file to <code>_posts/</code> to get started.</p>
+  {% else %}
+  <div class="cards">
+    {% for post in site.posts limit: 3 %}
+      {% include post-card.html post=post wide=forloop.first %}
+    {% endfor %}
+  </div>
+
+  {% if site.posts.size > 3 %}
+  <section class="prose">
+    <h2 id="more-writing">More writing</h2>
+    <ul class="post-list">
+      {% for post in site.posts offset: 3 limit: 10 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{ '/archive/' | relative_url }}">See the full archive</a></p>
+  </section>
+  {% endif %}
+  {% endif %}
+</div>

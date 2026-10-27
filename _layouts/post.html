@@ -1,0 +1,44 @@
+---
+layout: default
+---
+{% assign words = content | number_of_words %}
+{% assign minutes = words | divided_by: 200 | at_least: 1 %}
+<article>
+  <header class="sheet-head">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="{{ '/archive/' | relative_url }}">Writing</a>
+      {% if page.categories.size > 0 %}
+      <span aria-hidden="true">&rsaquo;</span>
+      <a href="{{ '/archive/' | relative_url }}#{{ page.categories.first | slugify }}">{{ page.categories.first }}</a>
+      {% endif %}
+    </nav>
+    <h1 class="title">{{ page.title }}</h1>
+    {% if page.description %}<p class="dek">{{ page.description }}</p>{% endif %}
+    <p class="meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time>
+      <span aria-hidden="true">/</span>
+      <span>{{ minutes }} min read</span>
+    </p>
+  </header>
+
+  <div class="sheet-body prose">
+    {{ content }}
+  </div>
+
+  {% if page.previous or page.next %}
+  <nav class="pager" aria-label="More posts">
+    {% if page.previous %}
+    <a class="card" href="{{ page.previous.url | relative_url }}">
+      <span class="card-kicker">&larr; Older</span>
+      <span class="card-title">{{ page.previous.title }}</span>
+    </a>
+    {% else %}<span></span>{% endif %}
+    {% if page.next %}
+    <a class="card card-right" href="{{ page.next.url | relative_url }}">
+      <span class="card-kicker">Newer &rarr;</span>
+      <span class="card-title">{{ page.next.title }}</span>
+    </a>
+    {% endif %}
+  </nav>
+  {% endif %}
+</article>

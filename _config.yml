@@ -1,0 +1,37 @@
+title: Musings
+tagline: Notes & essays
+description: >-
+  Notes, essays, and half-finished thoughts.
+author:
+url: "" # e.g. https://example.com
+baseurl: ""
+
+permalink: /:year/:month/:title/
+timezone: America/Denver
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post }
+  - scope: { path: "", type: drafts }
+    values: { layout: post }
+  - scope: { path: "" }
+    values: { layout: page }
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+sass:
+  style: compressed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - .ruby-version
+  - .tool-versions
+  - vendor

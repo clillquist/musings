@@ -1,0 +1,6 @@
+<a class="card{% if include.wide %} card-wide{% endif %}" href="{{ include.post.url | relative_url }}">
+  <span class="card-kicker"><time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: '%b %-d, %Y' }}</time></span>
+  <span class="card-title">{{ include.post.title }}</span>
+  <span class="card-text">{{ include.post.description | default: include.post.excerpt | strip_html | truncatewords: 32 }}</span>
+  <span class="card-link">Read it <span aria-hidden="true">&rarr;</span></span>
+</a>

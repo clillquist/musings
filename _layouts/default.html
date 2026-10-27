@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="mobile-bar">
+    <a class="brand" href="{{ '/' | relative_url }}"><span class="brand-name">{{ site.title | downcase }}</span></a>
+    <button type="button" class="menu-toggle" aria-controls="sidebar" aria-expanded="false">Menu</button>
+  </header>
+
+  <div class="shell">
+    {% include sidebar.html %}
+
+    <main class="sheet" id="main">
+      <div class="stripe" aria-hidden="true"><span></span><span></span><span></span></div>
+      {{ content }}
+      <footer class="sheet-foot">
+        <span>&copy; {{ site.time | date: '%Y' }} {{ site.author | default: site.title }}</span>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      </footer>
+    </main>
+
+    <aside class="rail" aria-label="On this page">
+      <div class="rail-inner" data-toc hidden>
+        <h2 class="nav-label">On this page</h2>
+        <ol></ol>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>
