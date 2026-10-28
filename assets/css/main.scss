@@ -22,6 +22,7 @@
 
   --sidebar-w: 300px;
   --rail-w: 230px;
+  --foot-h: 56px;
   color-scheme: light;
 }
 
@@ -158,11 +159,12 @@ a:hover { text-decoration-thickness: 2px; }
 
 .theme-switch {
   display: grid; grid-template-columns: repeat(3, 1fr);
+  height: var(--foot-h);
   border-top: 1px solid var(--rule);
 }
 .theme-switch button {
   appearance: none; border: 0; background: transparent; cursor: pointer;
-  padding: 14px 0; color: var(--ink-soft);
+  padding: 0; color: var(--ink-soft);
 }
 .theme-switch button + button { border-left: 1px solid var(--rule); }
 .theme-switch button[aria-pressed="true"] { background: var(--accent-wash); color: var(--accent); }
@@ -212,8 +214,9 @@ a:hover { text-decoration-thickness: 2px; }
 .sheet-body { padding: 48px 48px 64px; flex: 1; }
 
 .sheet-foot {
-  display: flex; justify-content: space-between;
-  padding: 20px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  height: var(--foot-h);
+  padding: 0 48px;
   border-top: 1px solid var(--rule);
   font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
 }
@@ -415,7 +418,7 @@ html:has(.viewer[open]) { overflow: hidden; }
   .crumbs::before { margin-left: -16px; width: 8px; }
   .crumbs::after { margin-right: -16px; }
   .sheet-body { padding: 32px 16px 48px; }
-  .sheet-foot { padding: 18px 16px; }
+  .sheet-foot { padding: 0 16px; }
   .pager { padding: 0 16px 40px; grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr; }
   .card { padding: 22px 20px; }
