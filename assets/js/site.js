@@ -38,6 +38,63 @@
     });
   }
 
+  // Photo viewer: each gallery (or single figure) is its own set
+  var photoLinks = document.querySelectorAll("[data-viewer]");
+  if (photoLinks.length && typeof HTMLDialogElement === "function") {
+    var viewer = document.createElement("dialog");
+    viewer.className = "viewer";
+    viewer.setAttribute("aria-label", "Photo viewer");
+    viewer.innerHTML =
+      '<figure class="viewer-figure"><img alt="">' +
+      '<figcaption><span class="viewer-caption"></span><span class="viewer-meta"></span><span class="viewer-count"></span></figcaption></figure>' +
+      '<button type="button" class="viewer-btn viewer-prev" aria-label="Previous photo">&larr;</button>' +
+      '<button type="button" class="viewer-btn viewer-next" aria-label="Next photo">&rarr;</button>' +
+      '<button type="button" class="viewer-btn viewer-close">Close</button>';
+    document.body.appendChild(viewer);
+
+    var vImg = viewer.querySelector("img");
+    var vCaption = viewer.querySelector(".viewer-caption");
+    var vMeta = viewer.querySelector(".viewer-meta");
+    var vCount = viewer.querySelector(".viewer-count");
+    var vPrev = viewer.querySelector(".viewer-prev");
+    var vNext = viewer.querySelector(".viewer-next");
+    var set = [];
+    var current = 0;
+
+    var show = function (i) {
+      current = (i + set.length) % set.length;
+      var link = set[current];
+      vImg.src = link.href;
+      vImg.alt = link.querySelector("img").alt;
+      vCaption.textContent = link.dataset.caption || "";
+      vMeta.textContent = link.dataset.meta || "";
+      vCount.textContent = set.length > 1 ? (current + 1) + " / " + set.length : "";
+      vPrev.hidden = vNext.hidden = set.length < 2;
+    };
+
+    photoLinks.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        var group = link.closest(".gallery, .photo");
+        set = Array.prototype.slice.call(group.querySelectorAll("[data-viewer]"));
+        show(set.indexOf(link));
+        viewer.showModal();
+      });
+    });
+
+    vPrev.addEventListener("click", function () { show(current - 1); });
+    vNext.addEventListener("click", function () { show(current + 1); });
+    viewer.querySelector(".viewer-close").addEventListener("click", function () { viewer.close(); });
+    viewer.addEventListener("click", function (e) {
+      if (e.target === viewer || e.target.classList.contains("viewer-figure")) viewer.close();
+    });
+    viewer.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+    viewer.addEventListener("close", function () { vImg.removeAttribute("src"); });
+  }
+
   // "On this page" rail built from h2/h3 headings
   var toc = document.querySelector("[data-toc]");
   var headings = Array.prototype.slice.call(document.querySelectorAll(".sheet .prose h2[id], .sheet .prose h3[id]"));

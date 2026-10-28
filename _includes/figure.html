@@ -1,0 +1,14 @@
+{%- comment -%}
+  Single photo.
+  {% include figure.html src="/assets/photos/x.jpg" alt="..." caption="..." meta="X100V · 23mm · f/4" size="wide" %}
+  size: (default) text column | wide (edge of the page) | small (narrow, centered)
+  width/height are optional; pass them to avoid layout shift while loading.
+{%- endcomment -%}
+{%- assign size = include["size"] | default: "normal" -%}
+{%- assign caption = include.caption | markdownify | remove: "<p>" | remove: "</p>" | strip -%}
+<figure class="photo photo-{{ size }}">
+<a class="photo-link" href="{{ include.src | relative_url }}" data-viewer data-caption="{{ caption | strip_html | escape }}" data-meta="{{ include.meta | escape }}"><img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy" decoding="async"{% if include.width %} width="{{ include.width }}" height="{{ include.height }}"{% endif %}></a>
+{%- if caption != "" or include.meta %}
+<figcaption><span>{{ caption }}</span>{% if include.meta %}<span class="photo-meta">{{ include.meta }}</span>{% endif %}</figcaption>
+{%- endif %}
+</figure>

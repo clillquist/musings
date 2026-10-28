@@ -1,0 +1,38 @@
+{%- comment -%}
+  Photo gallery, from a front matter list or a folder.
+  {% include gallery.html images=page.kyoto %}
+  {% include gallery.html folder="/assets/photos/kyoto" %}
+  List items take: src, alt, caption, meta (and optional thumb).
+  Options:
+    layout:  grid (uniform crop, default) | masonry (natural aspect ratios)
+    columns: 2 | 3 (default) | 4
+    ratio:   crop ratio for grid, e.g. "3/2" (default), "1/1", "4/5"
+    size:    (default) text column | wide (edge of the page)
+    caption: one caption for the whole set
+{%- endcomment -%}
+{%- assign layout = include.layout | default: "grid" -%}
+{%- assign columns = include.columns | default: 3 -%}
+{%- assign ratio = include.ratio | default: "3/2" -%}
+{%- assign size = include["size"] | default: "normal" -%}
+{%- if include.folder -%}
+  {%- assign prefix = include.folder | append: "/" -%}
+  {%- assign images = site.static_files | where_exp: "f", "f.path contains prefix" | sort: "path" -%}
+{%- else -%}
+  {%- assign images = include.images -%}
+{%- endif -%}
+<figure class="gallery gallery-{{ layout }} photo-{{ size }}" style="--cols: {{ columns }}; --ratio: {{ ratio }}">
+<div class="gallery-items">
+{%- for img in images -%}
+  {%- assign src = img.src | default: img.path -%}
+  {%- assign ext = src | split: "." | last | downcase -%}
+  {%- unless "jpg jpeg png webp avif gif" contains ext -%}{%- continue -%}{%- endunless -%}
+  {%- assign thumb = img.thumb | default: src -%}
+  {%- assign alt = img.alt | default: img.basename | default: "" -%}
+  {%- assign caption = img.caption | markdownify | strip_html | strip -%}
+<a class="photo-link" href="{{ src | relative_url }}" data-viewer data-caption="{{ caption | escape }}" data-meta="{{ img.meta | escape }}"><img src="{{ thumb | relative_url }}" alt="{{ alt | escape }}" loading="lazy" decoding="async"></a>
+{%- endfor -%}
+</div>
+{%- if include.caption %}
+<figcaption><span>{{ include.caption | markdownify | remove: "<p>" | remove: "</p>" | strip }}</span></figcaption>
+{%- endif %}
+</figure>
