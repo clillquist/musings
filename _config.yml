@@ -3,8 +3,8 @@ tagline: Notes & thoughts
 description: >-
   Notes and half-finished thoughts.
 author: Chad
-url: "" # e.g. https://example.com
-baseurl: ""
+url: "https://clillquist.github.io"
+baseurl: "/musings"
 
 permalink: /:year/:month/:title/
 timezone: America/Denver
